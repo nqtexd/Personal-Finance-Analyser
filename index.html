@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+    <h1 style="text-align: center;">Cashflow Dashboard</h1>
+      <p>Analyze your data at an exper level</p>
+      <p>You can analyse your financial data just with a look, easy to use. No need for complex tools or calculations, just a click is enough to look at your entire financial data in a graph and also get personalised advice from Ai.</p>
+    </div>
+
+    <div class="upload-section">
+      <h2>Upload Financial Data</h2>
+      <p style="margin-bottom: 16px; color: #64748b;">Upload csv file with Date, Income, and Expense columns [case sesnitive btw]</p>
+      <input type="file" id="csvUpload" class="file-input" accept=".csv" />
+      <label for="csvUpload" class="file-input-label">Choose File</label>
+      <button id="uploadBtn" class="upload-btn" disabled>Analyse</button>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Processing your data</p>
+      </div>
+    </div>
+
+    <div id="dashboard" class="hidden">
+      <div class="filter-section">
+        <label for="startDate">From:</label>
+        <input type="date" id="startDate" />
+        <label for="endDate">To:</label>
+        <input type="date" id="endDate" />
+        <button class="filter-btn" onclick="applyDateFilter()">Apply Filter</button>
+        <button class="filter-btn" onclick="resetFilter()">Reset</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Income</div>
+          <div class="stat-value positive" id="totalIncome">₹0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Expenses</div>
+          <div class="stat-value negative" id="totalExpense">₹0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Net Balance</div>
+          <div class="stat-value" id="netBalance">₹0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Savings Rate</div>
+          <div class="stat-value neutral" id="savingsRate">0%</div>
+        </div>
+      </div>
+
+      <div class="charts-section">
+        <div class="chart-card">
+          <div class="chart-title">Income vs Expenses</div>
+          <div class="chart-container"><canvas id="barChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Balance Trend</div>
+          <div class="chart-container"><canvas id="lineChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="chart-card" style="margin-bottom: 32px;">
+        <div class="chart-title">Daily Overview</div>
+        <div class="chart-container"><canvas id="dailyChart"></canvas></div>
+      </div>
+
+      <div class="chart-card" id="aiInsightsCard">
+        <div class="chart-title">AI insights</div>
+        <div id="aiAdviceContent" class="ai-advice">
+          <p>Personalised Advice By Ai From Your Data</p>
+        </div>
+      </div>
+    </div>
+      <div class="table-card">
+        <div class="chart-title">Recent Transactions</div>
+        <div class="table-container">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Income</th>
+                <th>Expense</th>
+                <th>Daily Net</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
